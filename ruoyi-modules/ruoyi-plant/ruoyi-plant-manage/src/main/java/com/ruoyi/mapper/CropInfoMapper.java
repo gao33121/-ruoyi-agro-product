@@ -1,9 +1,8 @@
 package com.ruoyi.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.system.api.domain.CropInfo;
-
 import java.util.List;
+
+import com.ruoyi.domain.CropInfo;
 
 /**
  * 农作物信息Mapper接口
@@ -11,7 +10,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-02-28
  */
-public interface CropInfoMapper  extends BaseMapper<CropInfo>
+public interface CropInfoMapper 
 {
     /**
      * 查询农作物信息
@@ -60,4 +59,10 @@ public interface CropInfoMapper  extends BaseMapper<CropInfo>
      * @return 结果
      */
     public int deleteCropInfoByIds(Long[] ids);
+
+    List<CropInfo> selectCropAll();
+
+    void insertPlanInfo(CropInfo planInfo);
+
+    List<CropInfo> selectCropInfoListAll(CropInfo cropInfo);
 }

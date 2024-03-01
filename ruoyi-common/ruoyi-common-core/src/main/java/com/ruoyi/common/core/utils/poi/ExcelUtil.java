@@ -462,7 +462,7 @@ public class ExcelUtil<T>
      * 对list数据源将其里面的数据导入到excel表单
      *
      * @param response 返回数据
-     * @param list 导出数据集合
+     * @param list 合导出数据集
      * @param sheetName 工作表的名称
      * @param title 标题
      * @return 结果

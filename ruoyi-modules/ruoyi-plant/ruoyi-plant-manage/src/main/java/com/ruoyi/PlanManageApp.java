@@ -12,7 +12,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients
 @MapperScan("com.ruoyi.mapper")
-
 public class PlanManageApp
 {
     public static void main( String[] args )

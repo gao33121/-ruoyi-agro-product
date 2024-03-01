@@ -1,9 +1,11 @@
 package com.ruoyi.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.ruoyi.system.api.domain.CropInfo;
-
 import java.util.List;
+
+import com.ruoyi.domain.CropInfo;
+import com.ruoyi.system.api.domain.SysUser;
+import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  * 农作物信息Service接口
@@ -11,7 +13,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-02-28
  */
-public interface ICropInfoService extends IService<CropInfo>
+public interface ICropInfoService 
 {
     /**
      * 查询农作物信息
@@ -60,4 +62,13 @@ public interface ICropInfoService extends IService<CropInfo>
      * @return 结果
      */
     public int deleteCropInfoById(Long id);
+
+
+    String importCropInfo(List<SysUser> userList, boolean updateSupport, String operName);
+
+    List<CropInfo> selectCropAll();
+
+    void insertPlanInfo(CropInfo planInfo);
+
+    List<CropInfo> selectCropInfoListAll(CropInfo cropInfo);
 }
