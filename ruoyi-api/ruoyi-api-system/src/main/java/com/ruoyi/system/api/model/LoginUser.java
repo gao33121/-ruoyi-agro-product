@@ -3,12 +3,14 @@ package com.ruoyi.system.api.model;
 import java.io.Serializable;
 import java.util.Set;
 import com.ruoyi.system.api.domain.SysUser;
+import lombok.Data;
 
 /**
  * 用户信息
  *
  * @author ruoyi
  */
+@Data
 public class LoginUser implements Serializable
 {
     private static final long serialVersionUID = 1L;

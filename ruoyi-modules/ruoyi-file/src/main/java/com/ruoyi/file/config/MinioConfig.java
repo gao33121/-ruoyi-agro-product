@@ -19,6 +19,7 @@ public class MinioConfig
      */
     private String url;
 
+
     /**
      * 用户名
      */
@@ -73,6 +74,8 @@ public class MinioConfig
     {
         this.bucketName = bucketName;
     }
+
+
 
     @Bean
     public MinioClient getMinioClient()
