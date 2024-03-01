@@ -1,8 +1,11 @@
 package com.ruoyi.file.controller;
 
+import com.ruoyi.file.config.MinioConfig;
+import com.ruoyi.file.service.MinioSysFileServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +13,8 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.file.service.ISysFileService;
 import com.ruoyi.system.api.domain.SysFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 文件请求处理
@@ -23,6 +28,9 @@ public class SysFileController
 
     @Autowired
     private ISysFileService sysFileService;
+    @Autowired
+    private MinioSysFileServiceImpl minioSysFileServiceImpl;
+
 
     /**
      * 文件上传请求
@@ -45,4 +53,16 @@ public class SysFileController
             return R.fail(e.getMessage());
         }
     }
+    @PostMapping("uploadPic")
+    public String uploadPic(MultipartFile file) throws Exception {
+        //String DOWNLOAD_URL = "http://localhost/dev-api/plant/records/downloadPic";
+
+        String fileName = minioSysFileServiceImpl.uploadPic(file);
+        return  fileName;
+    }
+    @GetMapping("downloadPic")
+    public void downloadPic(String fileName, HttpServletResponse response) throws Exception {
+        minioSysFileServiceImpl.downloadPic(fileName, response);
+    }
+
 }
