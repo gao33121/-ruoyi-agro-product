@@ -128,7 +128,14 @@
           type="text"
           icon="el-icon-magic-stick"
           @click="handleRecords(scope.row)"
-          >查看记录
+          >记录农作物信息
+          </el-button>
+          <el-button
+          size="mini"
+          type="text"
+          icon="el-icon-magic-stick"
+          @click="pathListByCrop(scope.row)"
+          >查看周期记录信息
           </el-button>
         </template>
       </el-table-column>
@@ -321,7 +328,7 @@
         <!-- 农作物种植记录跟踪信息对话框 -->
     <el-dialog :title="title" :visible.sync="records" width="750px" append-to-body>
       <el-form ref="form" :model="recordsFrom" :rules="rules" label-width="95px" label-position="left">
-        <el-form-item label="农作物信息" prop="cropInfoId" position="top">
+        <el-form-item label="记录农作物生长情况" prop="cropInfoId" position="top">
           <el-select v-model="recordsFrom.cropInfoId" placeholder="请选择农作物信息" :disabled="usable">
             <el-option v-for="item in corpInfoList" :key="item.id" :label="item.cropName"
                        :value="item.id"></el-option>
@@ -391,7 +398,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="recordedFrom">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
      </el-dialog>
@@ -424,11 +431,43 @@
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!--    查看当前农作物周期记录对话框-->
+    <el-dialog :title="planTitle" :visible.sync="dialogTablePhan" width="1300px">
+      <el-table :data="planTable" v-loading="loadingPlan" >
+        <el-table-column label="农作物记录ID" align="center" prop="planId"/>
+        <el-table-column label="记录时间" align="center" prop="recordTime" width="170">
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.recordTime, '{y}-{m}-{d}') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="温度" align="center" prop="temperature">
+          <template v-slot="scope">
+            <span>{{ scope.row.temperature }}   °C</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="生长状况" align="center" prop="arowths"/>
+        <el-table-column label="湿度" align="center" prop="humidness">
+          <template v-slot="scope">
+            <span>{{ scope.row.humidness }}   %RH</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="光照" align="center" prop="illumination"/>
+        <el-table-column label="农作物图片" align="center" prop="pic">
+          <template slot-scope="scope">
+            <img :src="scope.row.pic" alt="" style="width: 180px;height: 150px">
+          </template>
+        </el-table-column>
+        <el-table-column label="备注信息" align="center" prop="remark" width="180"/>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {listInfo,getrntry,getInfo,addInfo,updateInfo,delInfo,planList,fertList,irrList} from "@/api/system/cropInfo";
+import {pathListByCrop} from "@/api/system/planInfo";
+
 // 富文本框
 import {getToken} from "../../../utils/auth";
 import {VueEditor} from "vue2-editor";
@@ -439,6 +478,13 @@ export default {
   },
   data() {
     return {
+      //  农作物周期记录弹出框
+      dialogTablePhan: false,
+      // 周期记录弹出框
+      planTitle: "",
+      //  农作物记录表格数据
+      planTable: [],
+      loadingPlan: true,
       //图片参数
       avatar:[
         {
@@ -523,6 +569,19 @@ export default {
     this.getFertList();
   },
   methods: {
+    /** 查看当前农作物周期记录按钮*/
+    pathListByCrop(crop){
+      this.loadingPlan = true;
+      pathListByCrop(crop).then(res => {
+        this.planTable = res;
+        this.planTitle = "编号：" + crop.cropNum + "  的农作物周期记录"
+      });
+      this.dialogTablePhan = true;
+      this.loadingPlan = false;
+    },
+    recordedFrom(){
+
+    },
     // 提交上传文件
     submitFileForm() {
       this.$refs.upload.submit();

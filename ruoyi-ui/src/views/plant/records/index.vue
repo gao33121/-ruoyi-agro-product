@@ -270,7 +270,6 @@
 
 <script>
 import {listInfo, getInfo, delInfo, addInfo, updateInfo, CorpInfoList} from "@/api/system/planInfo";
-
 import {VueEditor} from "vue2-editor";
 import {getToken} from "@/utils/auth";
 
