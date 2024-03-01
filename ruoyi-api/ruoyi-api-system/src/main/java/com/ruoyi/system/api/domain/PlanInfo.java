@@ -19,7 +19,7 @@ import java.util.Date;
  */
 @Data
 @ExcelIgnoreUnannotated
-public class PlanInfo extends BaseEntity {
+public class PlanInfo extends  BaseEntity{
     private static final long serialVersionUID = 1L;
 
     /**

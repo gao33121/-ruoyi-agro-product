@@ -83,8 +83,8 @@
     </el-row>
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="农作物编号" align="center" prop="cropInfo.cropNum"/>
-      <el-table-column label="农作物名称" align="center" prop="cropInfo.cropName"/>
+      <el-table-column label="农作物编号" width="180" align="center" prop="cropInfo.cropNum"/>
+      <el-table-column label="农作物名称" width="120" align="center" prop="cropInfo.cropName"/>
       <el-table-column label="记录时间" align="center" prop="recordTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.recordTime, '{y}-{m}-{d}') }}</span>
@@ -95,13 +95,25 @@
           <span>{{ scope.row.temperature }}   °C</span>
         </template>
       </el-table-column>
-      <el-table-column label="生长状况" align="center" prop="arowths"/>
+      <el-table-column label="生长状况" align="center" prop="arowths">
+        <template v-slot="scope">
+          <el-tag type="success" v-if="scope.row.arowths === '生长健壮'">{{ scope.row.arowths }}</el-tag>
+          <el-tag type="warning" v-if="scope.row.arowths === '生长缓慢'">{{ scope.row.arowths }}</el-tag>
+          <el-tag type="danger" v-if="scope.row.arowths === '生长不良'">{{ scope.row.arowths }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="湿度" align="center" prop="humidness">
         <template v-slot="scope">
           <span>{{ scope.row.humidness }}   %RH</span>
         </template>
       </el-table-column>
-      <el-table-column label="光照" align="center" prop="illumination"/>
+      <el-table-column label="光照" align="center" prop="illumination">
+        <template v-slot="scope">
+          <el-tag type="success" v-if="scope.row.illumination === '光照充足'">{{ scope.row.illumination }}</el-tag>
+          <el-tag type="warning" v-if="scope.row.illumination === '光照适中'">{{ scope.row.illumination }}</el-tag>
+          <el-tag type="danger" v-if="scope.row.illumination === '光照不足'">{{ scope.row.illumination }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="农作物图片" align="center" prop="pic">
         <template slot-scope="scope">
           <img :src="scope.row.pic" alt="" style="width: 180px;height: 150px">

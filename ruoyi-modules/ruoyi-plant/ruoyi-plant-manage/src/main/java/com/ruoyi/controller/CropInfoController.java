@@ -1,37 +1,30 @@
 package com.ruoyi.controller;
 
-import java.io.InputStream;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.listener.PageReadListener;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
-import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.domain.CropInfo;
 import com.ruoyi.domain.Dictionary;
+import com.ruoyi.system.api.domain.CropInfo;
 import com.ruoyi.service.DictionaryService;
 import com.ruoyi.service.ICropInfoService;
-import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.util.DailyImportListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.ruoyi.common.core.utils.PageUtils.startPage;
 
 
 /**

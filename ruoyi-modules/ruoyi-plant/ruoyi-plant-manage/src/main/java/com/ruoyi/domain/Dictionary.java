@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 农产品溯源字典表
@@ -13,7 +14,7 @@ import lombok.Data;
  */
 @TableName(value ="dictionary")
 @Data
-public class Dictionary implements Serializable {
+public class Dictionary  implements Serializable {
     /**
      * 主键
      */

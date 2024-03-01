@@ -2,9 +2,8 @@ package com.ruoyi.service;
 
 import java.util.List;
 
-import com.ruoyi.domain.CropInfo;
+import com.ruoyi.system.api.domain.CropInfo;
 import com.ruoyi.system.api.domain.SysUser;
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**

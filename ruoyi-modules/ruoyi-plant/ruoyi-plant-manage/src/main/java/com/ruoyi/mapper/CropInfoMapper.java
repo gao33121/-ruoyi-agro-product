@@ -2,7 +2,7 @@ package com.ruoyi.mapper;
 
 import java.util.List;
 
-import com.ruoyi.domain.CropInfo;
+import com.ruoyi.system.api.domain.CropInfo;
 
 /**
  * 农作物信息Mapper接口

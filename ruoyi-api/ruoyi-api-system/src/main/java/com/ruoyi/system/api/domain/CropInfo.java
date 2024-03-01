@@ -1,67 +1,105 @@
 package com.ruoyi.system.api.domain;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.core.annotation.Excel;
+
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
 
 /**
- * 农作物信息对象 crop_info
- * 
- * @author ruoyi
- * @date 2024-02-28
+ * 农作物信息表
+ *
+ * @TableName crop_info
  */
 @Data
-public class CropInfo extends BaseEntity
-{
+public class CropInfo extends BaseEntity {
     private static final long serialVersionUID = 1L;
+    /**
+     * ID
+     */
+    private Integer id;
 
-    /** $column.columnComment */
-    private Long id;
-
-    /** 编号   */
-    @Excel(name = "编号  ")
+    /**
+     * 编号
+     */
+    @ExcelIgnore
     private Long cropNum;
+    /**
+     * 状态(软删除)
+     */
+    private Integer status;
 
-    /** 种植基地id */
-    @Excel(name = "种植基地id")
-    private Long baseId;
+    /**
+     * 种植基地id
+     */
+    private Integer baseId;
 
-    /** 农作物名称 */
-    @Excel(name = "农作物名称")
+    /**
+     * 农作物名称
+     */
+
     private String cropName;
 
-    /** 登记时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "登记时间", width = 30, dateFormat = "yyyy-MM-dd")
+    /**
+     * 登记时间
+     */
+
     private Date registrationTime;
 
-    /** 周期 */
-    @Excel(name = "周期")
+
+    /**
+     * 周期
+     */
+
     private String cycle;
 
-    /** 负责人 */
-    @Excel(name = "负责人")
+    /**
+     * 负责人
+     */
+
     private String baseCharge;
 
-    /** 负责人联系方式 */
-    @Excel(name = "负责人联系方式")
+    /**
+     * 负责人联系方式
+     */
+
     private String basePhone;
 
-    /** 种植方式id */
-    @Excel(name = "种植方式id")
-    private Long planmethodId;
+    /**
+     * 种植方式id
+     */
 
-    /** 灌溉方式id */
-    @Excel(name = "灌溉方式id")
-    private Long irrigationId;
+    private Integer planmethodId;
 
-    /** 肥料类型id */
-    @Excel(name = "肥料类型id")
-    private Long fertId;
+    /**
+     * 灌溉方式id
+     */
 
+    private Integer irrigationId;
+
+    /**
+     * 肥料类型id
+     */
+
+    private Integer fertId;
+
+    /**
+     * 备注
+     */
+    private String remark;
+    /**
+     * 灌溉方式
+     */
+    private String planName;
+    /**
+     * 肥料类型
+     */
+    private String fertName;
+    /**
+     * 种植方式
+     */
+    private String irriName;
 
 }
