@@ -74,9 +74,10 @@ public class PlanInfoController extends BaseController {
     /**
      * 导出农作物种植记录跟踪信息列表
      */
-    @GetMapping("/export")
-    public void export(HttpServletResponse response) throws Exception {
-        List<PlanInfo> list = planInfoService.selectPlanInfoListAll();
+    @PostMapping ("/export")
+    public void export(HttpServletResponse response,PlanInfo planInfo1) throws Exception {
+        //List<PlanInfo> list = planInfoService.selectPlanInfoListAll();
+        List<PlanInfo> list = planInfoService.selectPlanInfoList(planInfo1);
         //遍历循环
         for (PlanInfo planInfo : list) {
             //将状态字段替换

@@ -447,10 +447,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      // this.download('plant/records/export', {
-      //   ...this.queryParams
-      // }, `info_${new Date().getTime()}.xlsx`)
-      location = "http://localhost/dev-api/plant/records/export";
+      this.download('plant/records/export', {
+        ...this.queryParams
+      }, `Plan_${new Date().getTime()}.xlsx`)
+      // location = "http://localhost/dev-api/plant/records/export";
     },
     /**
      * 获取农作物信息列表
