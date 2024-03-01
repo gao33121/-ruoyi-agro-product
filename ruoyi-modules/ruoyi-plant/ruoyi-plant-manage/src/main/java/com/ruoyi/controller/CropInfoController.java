@@ -112,6 +112,13 @@ public class CropInfoController extends BaseController
 
     }
     /**
+     * 查询农作物列表 不分页
+     */
+    @GetMapping ("/getCorpInfoList")
+    public List<CropInfo> getCorpInfoList() {
+        return cropInfoService.selectCropInfoListAll(new CropInfo());
+    }
+    /**
      * 导入农作物信息列表
      */
     @RequestMapping("lentInto")

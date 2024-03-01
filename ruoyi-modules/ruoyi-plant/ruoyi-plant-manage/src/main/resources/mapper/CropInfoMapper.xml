@@ -67,6 +67,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 LEFT JOIN dictionary b ON crop_info.irrigation_id = b.dict_value and b.type = 'irrigation_dic'
                 LEFT JOIN dictionary c ON crop_info.fert_id = c.dict_value and c.type = 'fert_dic'
     </select>
+    <select id="selectCropInfoListAll" resultType="com.ruoyi.domain.CropInfo">
+        <include refid="selectCropInfoVo"/>
+        <where>
+            <if test="cropNum != null "> and crop_num = #{cropNum}</if>
+            <if test="baseId != null "> and base_id = #{baseId}</if>
+            <if test="cropName != null  and cropName != ''"> and crop_name like concat('%', #{cropName}, '%')</if>
+            <if test="registrationTime != null "> and registration_time = #{registrationTime}</if>
+            <if test="cycle != null  and cycle != ''"> and cycle = #{cycle}</if>
+            <if test="baseCharge != null  and baseCharge != ''"> and base_charge = #{baseCharge}</if>
+            <if test="basePhone != null  and basePhone != ''"> and base_phone = #{basePhone}</if>
+            <if test="planmethodId != null "> and planMethod_id = #{planmethodId}</if>
+            <if test="irrigationId != null "> and irrigation_id = #{irrigationId}</if>
+            <if test="fertId != null "> and fert_id = #{fertId}</if>
+        </where>
+    </select>
 
     <insert id="insertCropInfo" parameterType="com.ruoyi.domain.CropInfo" useGeneratedKeys="true" keyProperty="id">
         insert into crop_info

@@ -119,5 +119,10 @@ public class CropInfoServiceImpl implements ICropInfoService
         cropInfoMapper.insertPlanInfo(planInfo);
     }
 
+    @Override
+    public List<CropInfo> selectCropInfoListAll(CropInfo cropInfo) {
+        return cropInfoMapper.selectCropInfoListAll(cropInfo);
+    }
+
 
 }

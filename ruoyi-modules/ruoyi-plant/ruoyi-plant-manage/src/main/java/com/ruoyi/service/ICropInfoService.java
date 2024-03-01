@@ -69,4 +69,6 @@ public interface ICropInfoService
     List<CropInfo> selectCropAll();
 
     void insertPlanInfo(CropInfo planInfo);
+
+    List<CropInfo> selectCropInfoListAll(CropInfo cropInfo);
 }
