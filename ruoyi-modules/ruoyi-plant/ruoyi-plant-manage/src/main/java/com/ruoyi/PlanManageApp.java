@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.ruoyi.mapper")
-
 public class PlanManageApp
 {
     public static void main( String[] args )
