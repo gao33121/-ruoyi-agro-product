@@ -1,30 +1,30 @@
 package com.ruoyi.controller;
 
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.listener.PageReadListener;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
-import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.domain.CropInfo;
-import com.ruoyi.domain.Dictionary;
 import com.ruoyi.service.DictionaryService;
 import com.ruoyi.service.ICropInfoService;
-import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.system.api.domain.CropInfo;
+import com.ruoyi.system.api.domain.PageBeing;
+import com.ruoyi.system.api.domain.ReportDate;
 import com.ruoyi.util.DailyImportListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,17 +48,36 @@ public class CropInfoController extends BaseController
     private ICropInfoService cropInfoService;
     @Autowired
     DictionaryService dictionaryService;
-
+    @Autowired
+    RedisTemplate redisTemplate;
+    /*
+    灌溉方式的报表
+     */
+    @GetMapping("/irrStatement")
+     public Object irrstatement(){
+    List<ReportDate> list =  cropInfoService.irrStateMent();
+        ArrayList<String> x = new ArrayList<>();
+        ArrayList<String> y = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
+        for (ReportDate reportDate : list) {
+            x.add(reportDate.getX());
+            y.add(reportDate.getY());
+        }
+        map.put("x",x);
+        map.put("y",y);
+        return map;
+    }
     /**
     获取种植方式列表
      */
-    @PostMapping("planList")
+    @PostMapping("/planList")
     public AjaxResult planList(){
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("type","planMethod_info");
         List<Dictionary> list = dictionaryService.list(queryWrapper);
         return AjaxResult.success(list);
     }
+
     /**
     获取肥料类型列表
      */
@@ -79,12 +98,20 @@ public class CropInfoController extends BaseController
         List<Dictionary> list = dictionaryService.list(queryWrapper);
         return AjaxResult.success(list);
     }
-
+    /*
+    饼形图
+     */
+@PostMapping("getBing")
+public AjaxResult bing(){
+    List<ReportDate> list = cropInfoService.irrStateMent();
+    System.out.println(list);
+    return AjaxResult.success(list);
+}
     /**
      * 查询农作物信息列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(CropInfo cropInfo)
+    public TableDataInfo list(CropInfo cropInfo, PageBeing pageBeing)
     {
         startPage();
         List<CropInfo> list = cropInfoService.selectCropInfoList(cropInfo);
@@ -97,18 +124,18 @@ public class CropInfoController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, CropInfo cropInfo) throws IOException {
 
-//        List<CropInfo> list = cropInfoService.selectCropInfoList(cropInfo);
-//        System.err.println("导出的农作物信息对象:"+list);
-//        ExcelUtil<CropInfo> util = new ExcelUtil<CropInfo>(CropInfo.class);
-//        util.exportExcel(response, list, "农作物信息数据");
-        List<CropInfo> list = cropInfoService.selectCropAll();
-        //遍历循环
-
-        response.setContentType(EasyExcelConfig.RESPONSE_TYPE);
-        response.setCharacterEncoding(EasyExcelConfig.CHARSET);
-        //test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码
-        response.setHeader("Content-Disposition","attachment;filename=test.xls");
-        EasyExcel.write(response.getOutputStream(),CropInfo.class).sheet("农作物数据").doWrite(list);
+        List<CropInfo> list = cropInfoService.selectCropInfoList(cropInfo);
+        System.err.println("导出的农作物信息对象:"+list);
+        ExcelUtil<CropInfo> util = new ExcelUtil<CropInfo>(CropInfo.class);
+        util.exportExcel(response, list, "农作物信息数据");
+//        List<CropInfo> list = cropInfoService.selectCropAll();
+//        //遍历循环
+//        System.err.println(list);
+//        response.setContentType(EasyExcelConfig.RESPONSE_TYPE);
+//        response.setCharacterEncoding(EasyExcelConfig.CHARSET);
+//        //test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码
+//        response.setHeader("Content-Disposition","attachment;filename=test.xls");
+//        EasyExcel.write(response.getOutputStream(),CropInfo.class).sheet("农作物数据").doWrite(list);
 
     }
     /**
@@ -121,7 +148,7 @@ public class CropInfoController extends BaseController
     /**
      * 导入农作物信息列表
      */
-    @RequestMapping("lentInto")
+    @PostMapping("getRid")
     public AjaxResult getrntry(MultipartFile file) throws IOException {
         System.err.println("导入农作物信息列表进来了");
         List<CropInfo> list = EasyExcel.read(file.getInputStream())

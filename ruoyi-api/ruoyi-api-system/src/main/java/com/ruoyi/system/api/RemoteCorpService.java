@@ -4,7 +4,6 @@ import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.system.api.domain.CropInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 

@@ -2,7 +2,6 @@ package com.ruoyi.service.impl;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.mapper.PlanInfoMapper;
 import com.ruoyi.service.IPlanInfoService;
 import com.ruoyi.system.api.domain.CropInfo;

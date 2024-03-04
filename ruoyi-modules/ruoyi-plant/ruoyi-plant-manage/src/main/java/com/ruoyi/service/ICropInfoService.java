@@ -2,9 +2,9 @@ package com.ruoyi.service;
 
 import java.util.List;
 
-import com.ruoyi.domain.CropInfo;
+import com.ruoyi.system.api.domain.CropInfo;
+import com.ruoyi.system.api.domain.ReportDate;
 import com.ruoyi.system.api.domain.SysUser;
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -71,4 +71,6 @@ public interface ICropInfoService
     void insertPlanInfo(CropInfo planInfo);
 
     List<CropInfo> selectCropInfoListAll(CropInfo cropInfo);
+
+    List<ReportDate> irrStateMent();
 }

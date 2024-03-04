@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.mapper.CropInfoMapper">
     
-    <resultMap type="com.ruoyi.domain.CropInfo" id="CropInfoResult">
+    <resultMap type="com.ruoyi.system.api.domain.CropInfo" id="CropInfoResult">
         <result property="id"    column="id"    />
         <result property="cropNum"    column="crop_num"    />
         <result property="baseId"    column="base_id"    />
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, crop_num, base_id, crop_name, registration_time, cycle, base_charge, base_phone, planMethod_id, irrigation_id, fert_id, remark from crop_info
     </sql>
 
-    <select id="selectCropInfoList" parameterType="com.ruoyi.domain.CropInfo" resultMap="CropInfoResult">
+    <select id="selectCropInfoList" parameterType="com.ruoyi.system.api.domain.CropInfo" resultMap="CropInfoResult">
         SELECT
         crop_info.*,
         a.`name` planName,
@@ -35,27 +35,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN dictionary b ON crop_info.irrigation_id = b.dict_value and b.type = 'irrigation_dic'
         LEFT JOIN dictionary c ON crop_info.fert_id = c.dict_value and c.type = 'fert_dic'
         <where>
-
+            and status =1
             <if test="cropNum != null "> and crop_num = #{cropNum}</if>
             <if test="baseId != null "> and base_id = #{baseId}</if>
             <if test="cropName != null  and cropName != ''"> and crop_name like concat('%', #{cropName}, '%')</if>
-            <if test="registrationTime != null "> and registration_time = #{registrationTime}</if>
+
             <if test="cycle != null  and cycle != ''"> and cycle = #{cycle}</if>
             <if test="baseCharge != null  and baseCharge != ''"> and base_charge = #{baseCharge}</if>
             <if test="basePhone != null  and basePhone != ''"> and base_phone = #{basePhone}</if>
             <if test="planmethodId != null "> and planMethod_id = #{planmethodId}</if>
             <if test="irrigationId != null "> and irrigation_id = #{irrigationId}</if>
             <if test="fertId != null "> and fert_id = #{fertId}</if>
-        and status =1
+            <if test="registrationTime != ''">order by registration_time </if>
+
         </where>
-        ORDER BY crop_num
+
     </select>
     
     <select id="selectCropInfoById" parameterType="Long" resultMap="CropInfoResult">
         <include refid="selectCropInfoVo"/>
         where id = #{id}
     </select>
-    <select id="selectCropAll" resultType="com.ruoyi.domain.CropInfo">
+    <select id="selectCropAll" resultType="com.ruoyi.system.api.domain.CropInfo">
         SELECT
             crop_info.*,
             a.`name` planName,
@@ -67,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 LEFT JOIN dictionary b ON crop_info.irrigation_id = b.dict_value and b.type = 'irrigation_dic'
                 LEFT JOIN dictionary c ON crop_info.fert_id = c.dict_value and c.type = 'fert_dic'
     </select>
-    <select id="selectCropInfoListAll" resultType="com.ruoyi.domain.CropInfo">
+    <select id="selectCropInfoListAll" resultType="com.ruoyi.system.api.domain.CropInfo">
         <include refid="selectCropInfoVo"/>
         <where>
             <if test="cropNum != null "> and crop_num = #{cropNum}</if>
@@ -82,8 +83,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fertId != null "> and fert_id = #{fertId}</if>
         </where>
     </select>
+    <select id="irrStateMent" resultType="com.ruoyi.system.api.domain.ReportDate">
+        SELECT
+            b.NAME name,
+            count(*) `value`
+        FROM
+            crop_info
+                LEFT JOIN dictionary a ON crop_info.planMethod_id = a.dict_value
+                AND a.type = 'planMethod_info'
+                LEFT JOIN dictionary b ON crop_info.irrigation_id = b.dict_value
+                AND b.type = 'irrigation_dic'
+                LEFT JOIN dictionary c ON crop_info.fert_id = c.dict_value
+                AND c.type = 'fert_dic'
+        GROUP BY
+            `name`
+    </select>
 
-    <insert id="insertCropInfo" parameterType="com.ruoyi.domain.CropInfo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCropInfo" parameterType="com.ruoyi.system.api.domain.CropInfo" useGeneratedKeys="true" keyProperty="id">
         insert into crop_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="cropNum != null">crop_num,</if>
@@ -146,7 +162,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
     </insert>
 
-    <update id="updateCropInfo" parameterType="com.ruoyi.domain.CropInfo">
+    <update id="updateCropInfo" parameterType="com.ruoyi.system.api.domain.CropInfo">
         update crop_info
         <trim prefix="SET" suffixOverrides=",">
             <if test="cropNum != null">crop_num = #{cropNum},</if>

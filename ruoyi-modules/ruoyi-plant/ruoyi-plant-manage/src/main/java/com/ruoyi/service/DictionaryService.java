@@ -1,7 +1,7 @@
 package com.ruoyi.service;
 
-import com.ruoyi.domain.Dictionary;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ruoyi.domain.Dictionary;
 
 /**
 * @author 86152

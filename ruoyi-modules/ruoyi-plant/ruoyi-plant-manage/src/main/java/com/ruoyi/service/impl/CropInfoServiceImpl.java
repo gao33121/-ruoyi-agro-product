@@ -3,17 +3,11 @@ package com.ruoyi.service.impl;
 
 import java.util.List;
 
-import com.alibaba.excel.EasyExcel;
-
-
-import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.bean.BeanValidators;
-import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.domain.CropInfo;
 
 import com.ruoyi.mapper.CropInfoMapper;
 import com.ruoyi.service.ICropInfoService;
+import com.ruoyi.system.api.domain.CropInfo;
+import com.ruoyi.system.api.domain.ReportDate;
 import com.ruoyi.system.api.domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,6 +116,11 @@ public class CropInfoServiceImpl implements ICropInfoService
     @Override
     public List<CropInfo> selectCropInfoListAll(CropInfo cropInfo) {
         return cropInfoMapper.selectCropInfoListAll(cropInfo);
+    }
+
+    @Override
+    public List<ReportDate> irrStateMent() {
+        return cropInfoMapper.irrStateMent();
     }
 
 

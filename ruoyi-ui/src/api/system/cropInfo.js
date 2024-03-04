@@ -1,5 +1,13 @@
 import request from '@/utils/request'
 
+//报表查询灌溉方式
+export function irrStatement(){
+   return request({
+     url:"/plant/manage/irrStatement",
+     method:"get"
+   })
+}
+
 // 查询农作物信息列表
 export function listInfo(query) {
   return request({
@@ -67,7 +75,14 @@ export function delInfo(id) {
 // 导入农作物信息
 export function getrntry() {
   return request({
-    url: '/plant/manage/getrntry',
+    url: '/plant/manage/getRid',
+    method:'post'
+  })
+}
+//饼形灌溉方式
+export function bingStatement(){
+  return request({
+    url: "/plant/manage/getBing",
     method:'post'
   })
 }

@@ -1,7 +1,7 @@
 package com.ruoyi.mapper;
 
-import com.ruoyi.domain.Dictionary;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ruoyi.domain.Dictionary;
 
 /**
 * @author 86152

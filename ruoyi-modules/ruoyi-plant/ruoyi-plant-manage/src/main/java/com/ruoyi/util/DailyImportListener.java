@@ -4,8 +4,7 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.exception.ExcelDataConvertException;
 import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
-import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.domain.CropInfo;
+import com.ruoyi.system.api.domain.CropInfo;
 
 
 import java.util.List;

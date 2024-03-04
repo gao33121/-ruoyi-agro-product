@@ -1,8 +1,9 @@
 package com.ruoyi.mapper;
 
-import java.util.List;
+import com.ruoyi.system.api.domain.CropInfo;
+import com.ruoyi.system.api.domain.ReportDate;
 
-import com.ruoyi.domain.CropInfo;
+import java.util.List;
 
 /**
  * 农作物信息Mapper接口
@@ -65,4 +66,6 @@ public interface CropInfoMapper
     void insertPlanInfo(CropInfo planInfo);
 
     List<CropInfo> selectCropInfoListAll(CropInfo cropInfo);
+
+    List<ReportDate> irrStateMent();
 }

@@ -1,67 +1,119 @@
 package com.ruoyi.system.api.domain;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
 
 /**
- * 农作物信息对象 crop_info
- * 
- * @author ruoyi
- * @date 2024-02-28
+ * 农作物信息表
+ *
+ * @TableName crop_info
  */
 @Data
-public class CropInfo extends BaseEntity
-{
+public class CropInfo extends BaseEntity {
     private static final long serialVersionUID = 1L;
+    /**
+     * ID
+     */
+    private Integer id;
 
-    /** $column.columnComment */
-    private Long id;
-
-    /** 编号   */
-    @Excel(name = "编号  ")
+    /**
+     * 编号
+     */
+    @Excel(name = "cropNum")
     private Long cropNum;
+    /**
+     * 状态(软删除)
+     */
 
-    /** 种植基地id */
-    @Excel(name = "种植基地id")
-    private Long baseId;
+    private Integer status;
 
-    /** 农作物名称 */
-    @Excel(name = "农作物名称")
+    /**
+     * 种植基地id
+     */
+    private Integer baseId;
+
+    /**
+     * 农作物名称
+     */
+    @Excel(name = "cropName")
     private String cropName;
 
-    /** 登记时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "登记时间", width = 30, dateFormat = "yyyy-MM-dd")
+    /**
+     * 登记时间
+     */
+    @Excel(name = "registrationTime")
     private Date registrationTime;
 
-    /** 周期 */
-    @Excel(name = "周期")
+
+    /**
+     * 周期
+     */
+    @Excel(name = "cycle")
     private String cycle;
 
-    /** 负责人 */
-    @Excel(name = "负责人")
+    /**
+     * 负责人
+     */
+    @Excel(name = "baseCharge")
     private String baseCharge;
 
-    /** 负责人联系方式 */
-    @Excel(name = "负责人联系方式")
+    /**
+     * 负责人联系方式
+     */
+    @Excel(name = "basePhone")
     private String basePhone;
 
-    /** 种植方式id */
-    @Excel(name = "种植方式id")
-    private Long planmethodId;
+    /**
+     * 种植方式id
+     */
 
-    /** 灌溉方式id */
-    @Excel(name = "灌溉方式id")
-    private Long irrigationId;
+    private Integer planmethodId;
 
-    /** 肥料类型id */
-    @Excel(name = "肥料类型id")
-    private Long fertId;
+    /**
+     * 灌溉方式id
+     */
 
+    private Integer irrigationId;
+    /*
+    报表灌溉名称
+     */
+
+    private String irr;
+     /*
+     报表灌溉数量
+      */
+    private Integer irrnum;
+    /**
+     * 肥料类型id
+     */
+
+    private Integer fertId;
+
+    /**
+     * 备注
+     */
+    private String remark;
+    /**
+     * 灌溉方式
+     */
+    @Excel(name = "planName")
+    private String planName;
+    /**
+     * 肥料类型
+     */
+    @Excel(name = "fertName")
+    private String fertName;
+    /**
+     * 种植方式
+     */
+    @Excel(name = "irrName")
+    private String irriName;
 
 }

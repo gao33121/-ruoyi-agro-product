@@ -7,6 +7,9 @@
 <!--        </el-carousel-item>-->
 <!--      </el-carousel>-->
 <!--    </template>-->
+        <!-- 柱状图点击 -->
+
+<!--    <button   @click="barc()">点击生成柱状图</button>-->
 
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="农作物名称" prop="cropName">
@@ -16,6 +19,14 @@
           clearable
           @keyup.enter.native="handleQuery"
         />
+      </el-form-item>
+      <el-form-item label="时间排序" prop="registrationTime">
+        <el-switch
+          v-model="queryParams.registrationTime"
+          @change="orDerTime"
+          active-color="#13ce66"
+          inactive-color="#ff4949">
+        </el-switch>
       </el-form-item>
       <el-form-item label="种植方式" prop="planmethodId">
         <el-select v-model="queryParams.planmethodId" placeholder="请选择入种植方式">
@@ -51,14 +62,15 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
+          type="info"
           plain
-          icon="el-icon-download"
+          icon="el-icon-upload2"
           size="mini"
           @click="handleExport"
           v-hasPermi="['system:info:export']"
         >导出</el-button>
       </el-col>
+
       <el-col :span="1.5">
         <el-button
         type="warning"
@@ -70,12 +82,29 @@
           导入
         </el-button>
       </el-col>
+      <el-col :span="1.5">
+      <el-button
+        type="danger"
+        plain
+        icon="el-icon-pie-chart"
+        size="mini"
+        @click="barc"
+        v-hasPermi="['system:info:export']"
+      >生成灌溉方式柱状图</el-button>
+    </el-col>
+      <el-col :span="1.5">
+        <el-button
+        type="danger"
+        plain
+        icon="el-icon-pie-chart"
+        @click="bing"
+        >生成灌溉方式的饼形图</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+       <!-- 列表展示-->
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
 
-      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="编号  " align="center" prop="cropNum" />
       <el-table-column label="种植基地id" align="center" prop="baseId" />
       <el-table-column label="农作物名称" align="center" prop="cropName" />
@@ -240,57 +269,49 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="21">
-            <el-form-item label="种植id"  prop="baseId">
-              <el-input disabled v-model="form.baseId" placeholder="请输入种植基地id" />
+            <el-form-item label="种植id:"  prop="baseId">
+              {{form.baseId}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="11">
-            <el-form-item label="作物名称" prop="cropName">
-              <el-input disabled v-model="form.cropName" placeholder="请输入农作物名称" />
+            <el-form-item label="作物名称:" prop="cropName">
+              {{form.cropName}}
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="登记时间" prop="registrationTime">
-              <el-date-picker
-                disabled
-                clearable
-                              v-model="form.registrationTime"
-                              type="date"
-                              value-format="yyyy-MM-dd"
-                              placeholder="请选择登记时间">
-              </el-date-picker>
+            <el-form-item label="登记时间:" prop="registrationTime">
+
+              {{form.registrationTime}}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="11">
-            <el-form-item label="周期" prop="cycle">
-              <el-input disabled v-model="form.cycle" placeholder="请输入周期" style="width: 90%">
-                <template slot="append">月份</template>
-              </el-input>
+            <el-form-item label="周期:" prop="cycle">
+              {{form.cycle}}月/份
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="负责人" prop="baseCharge">
-              <el-input disabled v-model="form.baseCharge" placeholder="请输入负责人" />
+            <el-form-item label="负责人:" prop="baseCharge">
+              {{form.baseCharge}}
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="联系方式" prop="basePhone">
-          <el-input disabled v-model="form.basePhone" placeholder="请输入负责人联系方式" />
+        <el-form-item label="联系方式:" prop="basePhone">
+          {{form.basePhone}}
         </el-form-item>
         <el-row>
           <el-col :span="11">
-            <el-form-item label="种植方式" prop="planmethodId">
+            <el-form-item label="种植方式:" prop="planmethodId">
               <el-select disabled v-model="form.planmethodId" placeholder="请选择入种植方式">
                 <el-option :key="p.dictValue" v-for="p in planList" :value="p.dictValue" :label="p.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="灌溉方式" prop="irrigationId">
+            <el-form-item label="灌溉方式:" prop="irrigationId">
               <el-select disabled v-model="form.irrigationId" placeholder="请输入灌溉方式">
                 <el-option :key="p.dictValue" v-for="p in irrList" :value="p.dictValue" :label="p.name"></el-option>
               </el-select>
@@ -299,7 +320,7 @@
         </el-row>
         <el-row>
           <el-col :span="11">
-            <el-form-item label="肥料类型" prop="fertId">
+            <el-form-item label="肥料类型:" prop="fertId">
               <el-select disabled v-model="form.fertId" placeholder="请输入肥料类型">
                 <el-option  :key="p.dictValue" v-for="p in fertList" :value="p.dictValue" :label="p.name"></el-option>
               </el-select>
@@ -307,15 +328,8 @@
           </el-col>
         </el-row>
 
-        <el-form-item label="备注" prop="remark">
-          <vue-editor
-            disabled
-            id="editor"
-            useCustomImageHandler
-            @image-added="handleImageAdded"
-            v-model="form.remark"
-          >
-          </vue-editor>
+        <el-form-item label="备注:" prop="remark">
+          {{form.remark}}
         </el-form-item>
 
       </el-form>
@@ -328,7 +342,7 @@
         <!-- 农作物种植记录跟踪信息对话框 -->
     <el-dialog :title="title" :visible.sync="records" width="750px" append-to-body>
       <el-form ref="form" :model="recordsFrom" :rules="rules" label-width="95px" label-position="left">
-        <el-form-item label="记录农作物生长情况" prop="cropInfoId" position="top">
+        <el-form-item label="农作物信息" prop="cropInfoId" position="top">
           <el-select v-model="recordsFrom.cropInfoId" placeholder="请选择农作物信息" :disabled="usable">
             <el-option v-for="item in corpInfoList" :key="item.id" :label="item.cropName"
                        :value="item.id"></el-option>
@@ -461,16 +475,24 @@
         <el-table-column label="备注信息" align="center" prop="remark" width="180"/>
       </el-table>
     </el-dialog>
+    <div id="main" style="height: 500px;width: 500px"></div>'
+    <div id="bing" style="height: 500px;width: 500px"></div>
+
   </div>
 </template>
 
 <script>
-import {listInfo,getrntry,getInfo,addInfo,updateInfo,delInfo,planList,fertList,irrList} from "@/api/system/cropInfo";
+import {listInfo,bingStatement,irrStatement,getrntry,getInfo,addInfo,updateInfo,delInfo,planList,fertList,irrList} from "@/api/system/cropInfo";
 import {pathListByCrop} from "@/api/system/planInfo";
 
 // 富文本框
 import {getToken} from "../../../utils/auth";
 import {VueEditor} from "vue2-editor";
+import * as echarts from 'echarts';
+import {listConfig} from "../../../api/system/config";
+
+
+
 export default {
   name: "Info",
   components: {
@@ -478,6 +500,7 @@ export default {
   },
   data() {
     return {
+      irrdata:[],
       //  农作物周期记录弹出框
       dialogTablePhan: false,
       // 周期记录弹出框
@@ -508,7 +531,7 @@ export default {
         // 设置上传的请求头部
         headers: { Authorization: "Bearer " + getToken() },
         // 上传的地址
-        url:process.env.VUE_APP_BASE_API +"/plant/manage/lentInto"
+        url:process.env.VUE_APP_BASE_API +"/plant/manage/getRid"
       },
       //记录的列表数据
       recordsFrom:[],
@@ -543,7 +566,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 3,
         cropNum: null,
         baseId: null,
         cropName: null,
@@ -569,6 +592,88 @@ export default {
     this.getFertList();
   },
   methods: {
+    /*
+    饼形图展现
+     */
+    bing(){
+      bingStatement().then(r=>{
+        console.log(r)
+        let data = r.data;
+        console.log(data)
+        var myChart = echarts.init(document.getElementById('bing'));
+        var option;
+        option = {
+          title: {
+            text: '灌溉方式统计报表  饼状图',
+            subtext: 'Fake Data',
+            left: 'center'
+          },
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left'
+          },
+          series: [
+            {
+              name: 'Access From',
+              type: 'pie',
+              radius: '50%',
+              data: data,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        };
+        option && myChart.setOption(option);
+
+      })
+    },
+    /*
+    柱状图展现
+     */
+    barc(){
+      irrStatement().then(r=>{
+        console.log("柱状图"+r)
+        let a = r.x
+        let b = r.y
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+          xAxis: {
+            type: 'category',
+            data: a
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: b,
+              type: 'bar'
+            }
+          ]
+        };
+
+        option && myChart.setOption(option);
+      })
+
+    },
+    /** 开关改变的值*/
+    orDerTime(row){
+      if (row==true){
+        this.queryParams.registrationTime=true
+        this.handleQuery()
+      }
+    },
     /** 查看当前农作物周期记录按钮*/
     pathListByCrop(crop){
       this.loadingPlan = true;
@@ -752,7 +857,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('plant/manage/export', {
+      this.download('/plant/manage/export', {
         ...this.queryParams
       }, `plan_${new Date().getTime()}.xlsx`)
     },
