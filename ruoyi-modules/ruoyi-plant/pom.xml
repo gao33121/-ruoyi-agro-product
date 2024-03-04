@@ -6,6 +6,7 @@
     <groupId>com.ruoyi</groupId>
     <version>3.6.3</version>
   </parent>
+
   <groupId>com.ruoyi</groupId>
   <artifactId>ruoyi-plant</artifactId>
   <version>3.6.3</version>

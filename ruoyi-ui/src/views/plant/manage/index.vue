@@ -433,10 +433,10 @@
     </el-dialog>
 
     <!--    查看当前农作物周期记录对话框-->
-    <el-dialog :title="planTitle" :visible.sync="dialogTablePhan" width="1300px">
+    <el-dialog :title="planTitle" :visible.sync="dialogTablePhan" width="1000px">
       <el-table :data="planTable" v-loading="loadingPlan" >
-        <el-table-column label="农作物记录ID" align="center" prop="planId"/>
-        <el-table-column label="记录时间" align="center" prop="recordTime" width="170">
+        <el-table-column label="记录ID" align="center" prop="planId" width="70"/>
+        <el-table-column label="记录时间" align="center" prop="recordTime" width="140">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.recordTime, '{y}-{m}-{d}') }}</span>
           </template>

@@ -133,3 +133,10 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+// 查询部门下拉树结构
+export function getUserDeptDate() {
+  return request({
+    url: '/system/user/getUserDeptDate',
+    method: 'get'
+  })
+}

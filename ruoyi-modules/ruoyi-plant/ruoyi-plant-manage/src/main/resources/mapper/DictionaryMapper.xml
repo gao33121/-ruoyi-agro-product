@@ -5,15 +5,16 @@
 <mapper namespace="com.ruoyi.mapper.DictionaryMapper">
 
     <resultMap id="BaseResultMap" type="com.ruoyi.domain.Dictionary">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="dictValue" column="dict_value" jdbcType="INTEGER"/>
-            <result property="type" column="type" jdbcType="VARCHAR"/>
-            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="dictValue" column="dict_value" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,dict_value,
+        id
+        ,name,dict_value,
         type,remark
     </sql>
 </mapper>

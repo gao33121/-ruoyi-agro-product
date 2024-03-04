@@ -4,8 +4,10 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
@@ -45,7 +47,8 @@ public class CropInfo extends BaseEntity {
     /**
      * 登记时间
      */
-
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date registrationTime;
 
 

@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.ruoyi.system.api.domain.ReportDate;
 import com.ruoyi.system.api.domain.SysUser;
 
 /**
@@ -203,4 +205,7 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    List<ReportDate> getUserDeptDate();
+
 }

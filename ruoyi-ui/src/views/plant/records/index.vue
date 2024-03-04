@@ -83,6 +83,61 @@
     </el-row>
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
+      <!--    展开行 展示农作物信息  -->
+      <el-table-column type="expand">
+        <template v-slot="scope">
+<!--          第一行-->
+            <el-row>
+              <el-col span="9">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="农作物编号">
+                    <span>{{ scope.row.cropInfo.cropNum }}</span>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+              <el-col span="6">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="农作物名称">
+                    <span>{{ scope.row.cropInfo.cropName }}</span>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+              <el-col span="9">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="登记时间">
+                    <span>{{ scope.row.cropInfo.registrationTime }}</span>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+            </el-row>
+<!--          第二行-->
+            <el-row>
+              <el-col span="9">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="负责人">
+                    <span>{{ scope.row.cropInfo.baseCharge }}</span>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+              <el-col span="6">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="联系方式">
+                    <span>{{ scope.row.cropInfo.basePhone }}</span>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+              <el-col span="9">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="种植周期">
+                    <span>{{ scope.row.cropInfo.cycle }}  周</span>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+            </el-row>
+
+
+        </template>
+      </el-table-column>
       <el-table-column label="农作物编号" width="180" align="center" prop="cropInfo.cropNum"/>
       <el-table-column label="农作物名称" width="120" align="center" prop="cropInfo.cropName"/>
       <el-table-column label="记录时间" align="center" prop="recordTime" width="180">
@@ -158,7 +213,7 @@
     <el-dialog :title="title" :visible.sync="open" width="750px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="95px" label-position="left">
 
-<!--        农作物信息的对话框-->
+        <!--        农作物信息的对话框-->
         <el-dialog
           width="30%"
           title="农作物信息"
@@ -166,7 +221,8 @@
           append-to-body>
           <span style="color: red">改为表格形式选择</span><br><br>
           <el-select v-model="form.cropInfoId" placeholder="请选择农作物信息" :disabled="usable">
-            <el-option v-for="item in corpInfoList" :key="item.id" @select="cropInfoIdOpen= false" :label="item.cropName"
+            <el-option v-for="item in corpInfoList" :key="item.id" @select="cropInfoIdOpen= false"
+                       :label="item.cropName"
                        :value="item.id"></el-option>
           </el-select>
         </el-dialog>
@@ -350,9 +406,8 @@ export default {
       imageUrl: "",
       //  图片上传请求地址
       loaderUrl: "http://localhost/dev-api/file/uploadPic",
-    //  农作物信息弹出框
-      cropInfoIdOpen : false,
-
+      //  农作物信息弹出框
+      cropInfoIdOpen: false,
 
 
     };
@@ -557,8 +612,13 @@ export default {
   },
   mounted() {
     this.restaurants = this.loadAll();
+  },
+
+  computed(){
+
   }
 };
+
 </script>
 <style>
 
@@ -599,4 +659,18 @@ export default {
   display: block;
 }
 
+.demo-table-expand {
+  font-size: 0;
+}
+
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
 </style>

@@ -45,7 +45,7 @@ public class PlanInfo extends  BaseEntity{
      * 记录时间
      */
     @ExcelProperty(value = {"农作物种植记录跟踪信息", "记录时间"}, index = 2)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     //@Excel(name = "记录时间", width = 30, dateFormat = "yyyy-MM-dd ")
     private Date recordTime;
